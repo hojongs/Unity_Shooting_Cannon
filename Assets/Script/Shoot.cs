@@ -7,14 +7,14 @@ public class Shoot : MonoBehaviour
     public const int FORCE = 3000;
     public GameObject bulletPrefab;
 
-	void Start ()
+    void Start()
     {
         Debug.Assert(bulletPrefab);
-	}
-	
-	void Update ()
+    }
+
+    void Update()
     {
-		if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("Shoot");
             GameObject bulletInstance = Instantiate(bulletPrefab, transform.position, transform.rotation);
@@ -22,5 +22,5 @@ public class Shoot : MonoBehaviour
             Debug.Assert(rigid);
             rigid.AddForce(transform.forward * FORCE);
         }
-	}
+    }
 }

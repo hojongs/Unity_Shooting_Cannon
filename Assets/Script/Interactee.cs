@@ -7,15 +7,15 @@ public class Interactee : MonoBehaviour
 {
     string myName;
 
-    void Start ()
+    void Start()
     {
         myName = "interactee";
-	}
-	
-	void Update ()
+    }
+
+    void Update()
     {
-		
-	}
+
+    }
 
     public void interact(Action lambda)
     {

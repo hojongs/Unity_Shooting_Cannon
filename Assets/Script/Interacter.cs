@@ -8,7 +8,7 @@ public class Interacter : MonoBehaviour
     //GameObject interactee;
     string myName;
 
-    void Start ()
+    void Start()
     {
         Debug.Assert(interactee);
         myName = "interacter";
@@ -24,7 +24,7 @@ public class Interacter : MonoBehaviour
         //});
     }
 
-    void Update ()
+    void Update()
     {
-	}
+    }
 }
