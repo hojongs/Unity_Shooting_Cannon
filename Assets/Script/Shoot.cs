@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Shoot : MonoBehaviour
+public class Shoot : NetworkBehaviour
 {
     public const int FORCE = 3000;
     public GameObject bulletPrefab;
