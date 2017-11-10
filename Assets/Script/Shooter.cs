@@ -5,12 +5,14 @@ using UnityEngine.Networking;
 
 public class Shooter : NetworkBehaviour
 {
-    public const int POWER = 3000;
+    public int POWER;
     public GameObject bulletPrefab;
+    Transform bodyTr;
 
     void Start()
     {
         Debug.Assert(bulletPrefab);
+        bodyTr = transform.FindChild("body").transform;
 
         InvokeRepeating("pollShoot", 0, 0.1f);
     }
@@ -22,18 +24,18 @@ public class Shooter : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        if (Input.GetAxis("Fire1") != 0)
+        if (Input.GetMouseButton(0))
             CmdShoot();
     }
 
     [Command] // run by only server
     void CmdShoot()
     {
-        Debug.Log("CmdShoot()");
+        //Debug.Log("CmdShoot()");
 
         var pos = transform.position + transform.forward;
 
-        GameObject bulletObj = Instantiate(bulletPrefab, pos, transform.rotation);
+        GameObject bulletObj = Instantiate(bulletPrefab, pos, bodyTr.rotation);
         Debug.Assert(bulletObj);
 
         NetworkServer.Spawn(bulletObj); // spawn by all client
@@ -43,11 +45,12 @@ public class Shooter : NetworkBehaviour
     [ClientRpc]
     void RpcAddForceOnAll(GameObject bulletObj)
     {
-        Bullet compoBullet = bulletObj.GetComponent<Bullet>();
-        Rigidbody compoRigid = bulletObj.GetComponent<Rigidbody>();
-        Debug.Assert(compoBullet && compoRigid);
+        Rigidbody rigid = GetComponent<Rigidbody>();
+        BulletCore bulletCore = bulletObj.GetComponent<BulletCore>();
+        Rigidbody bulletRigid = bulletObj.GetComponent<Rigidbody>();
+        Debug.Assert(bulletCore && bulletRigid);
 
-        compoBullet.shooterObj = gameObject;
-        compoRigid.AddForce(transform.forward * POWER);
+        bulletCore.shooterObj = gameObject;
+        bulletRigid.AddForce(rigid.velocity + bodyTr.up * POWER);
     }
 }

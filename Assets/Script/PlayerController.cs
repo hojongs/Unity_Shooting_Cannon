@@ -5,23 +5,25 @@ using UnityEngine.Networking;
 
 public class PlayerController : NetworkBehaviour
 {
-    //public const int MAP_SIZE = 50;
-
-    [SerializeField]
-    int SPEED; // 움직임 속도
-    [SerializeField]
-    GameObject personalCam; // 1인칭 카메라
+    public int SPEED; // 움직임 속도
+    public GameObject camPrefab; // 1인칭 카메라
+    public Vector3 camPos, camRot;
 
     void Start ()
     {
         if (!isLocalPlayer)
             return;
 
-        //transform.position = new Vector3(Random.Range(-MAP_SIZE, MAP_SIZE), 1.8f, Random.Range(-MAP_SIZE, MAP_SIZE));
+        transform.position = new Vector3(0,1,0);
 
         // 1인칭 카메라 생성
-        if (personalCam)
-            Instantiate<GameObject>(personalCam, transform, false);
+        if (camPrefab)
+        {
+            // camObj exists only my scene
+            var camObj = Instantiate(camPrefab, transform);
+            camObj.transform.localPosition = camPos;
+            camObj.transform.rotation = Quaternion.Euler(camRot);
+        }
     }
 	
 	void Update ()
