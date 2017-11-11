@@ -7,7 +7,15 @@ public class BulletCore : MonoBehaviour
     [HideInInspector]
     public GameObject shooterObj;
 
-	void Start () { }
+    private void Start () { }
 	
-	void Update () { }
+	private void Update () { }
+
+    private void OnCollisionEnter(Collision col)
+    {
+        var colObj = col.gameObject;
+        var interacter = colObj.GetComponent<PlayerInteracter>();
+        if (colObj.CompareTag("Player"))
+            interacter.die();
+    }
 }
